@@ -50,6 +50,7 @@
 /* @(#) $Id$ */
 
 #include "deflate.h"
+#include <errno.h>
 
 const char deflate_copyright[] =
    " deflate 1.2.8 Copyright 1995-2013 Jean-loup Gailly and Mark Adler ";
@@ -260,6 +261,7 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
     unsigned window_padding = 0;
     deflate_state *s;
     int wrap = 1;
+    const char *level_env;
     static const char my_version[] = ZLIB_VERSION;
 
     ushf *overlay;
@@ -298,6 +300,17 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
 #else
     if (level == Z_DEFAULT_COMPRESSION) level = 6;
 #endif
+
+    if ((level_env = getenv("ZLIB_LEVEL"))) {
+        long t;
+        char *end;
+
+        errno = 0;
+        t = strtol(level_env, &end, 0);
+        if (errno || level_env == end || t > 9 || t < 0)
+            return Z_STREAM_ERROR;
+        level = t;
+    }
 
     if (windowBits < 0) { /* suppress zlib wrapper */
         wrap = 0;
