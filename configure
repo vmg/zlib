@@ -818,8 +818,8 @@ case "${ARCH}" in
             CRC_FOLDING_lo=""
         fi
 
-        CFLAGS="${CFLAGS} -DUSE_QUICK"
-        SFLAGS="${SFLAGS} -DUSE_QUICK"
+        CFLAGS="${CFLAGS} -DUSE_QUICK -DUSE_MEDIUM"
+        SFLAGS="${SFLAGS} -DUSE_QUICK -DUSE_MEDIUM"
     ;;
     i386 | i486 | i586 | i686)
         OBJC="${OBJC} x86.o"
@@ -858,8 +858,8 @@ case "${ARCH}" in
             CRC_FOLDING_lo=""
         fi
 
-        CFLAGS="${CFLAGS} -DUSE_QUICK"
-        SFLAGS="${SFLAGS} -DUSE_QUICK"
+        CFLAGS="${CFLAGS} -DUSE_QUICK -DUSE_MEDIUM"
+        SFLAGS="${SFLAGS} -DUSE_QUICK -DUSE_MEDIUM"
     ;;
 esac
 
