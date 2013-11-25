@@ -94,6 +94,10 @@ typedef unsigned IPos;
  * save space in the various tables. IPos is used only for parameter passing.
  */
 
+#ifdef HAVE_PCLMULQDQ
+#include <immintrin.h>
+#endif
+
 typedef struct internal_state {
     z_streamp strm;      /* pointer back to this zlib stream */
     int   status;        /* as the name implies */
@@ -106,6 +110,14 @@ typedef struct internal_state {
     uInt   gzindex;      /* where in extra, name, or comment */
     Byte  method;        /* can only be DEFLATED */
     int   last_flush;    /* value of flush param for previous deflate call */
+
+#ifdef HAVE_PCLMULQDQ
+    __m128i xmm_crc0;
+    __m128i xmm_crc1;
+    __m128i xmm_crc2;
+    __m128i xmm_crc3;
+    __m128i xmm_crc_part;
+#endif
 
                 /* used by deflate.c: */
 
