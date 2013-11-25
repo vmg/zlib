@@ -22,6 +22,9 @@ date >> configure.log
 if [ -n "${CHOST}" ]; then
     uname="`echo "${CHOST}" | sed -e 's/^[^-]*-\([^-]*\)$/\1/' -e 's/^[^-]*-[^-]*-\([^-]*\)$/\1/' -e 's/^[^-]*-[^-]*-\([^-]*\)-.*$/\1/'`"
     CROSS_PREFIX="${CHOST}-"
+    ARCH="`echo "${CHOST}" | sed -e 's/-.*//'`"
+else
+    ARCH="`uname -p`"
 fi
 
 # destination name for static library
@@ -739,6 +742,18 @@ EOF
     echo "Checking for attribute(visibility) support... No." | tee -a configure.log
   fi
 fi
+
+# Set ARCH specific FLAGS
+case "${ARCH}" in
+    x86_64)
+        OBJC="${OBJC}"
+        PIC_OBJC="${PIC_OBJC}"
+    ;;
+    i386 | i486 | i586 | i686)
+        OBJC="${OBJC}"
+        PIC_OBJC="${PIC_OBJC}"
+    ;;
+esac
 
 # show the results in the log
 echo >> configure.log
