@@ -127,9 +127,9 @@ fill_window_sse.o: fill_window_sse.c
 	${CC} ${CFLAGS} -msse2 -I. -c -o $@ fill_window_sse.c
 
 crc_folding.lo: crc_folding.c
-	- at mkdir objs 2>/dev/null || test -d objs
+	- mkdir objs 2>/dev/null || test -d objs
 	$(CC) $(SFLAGS) -mpclmul -msse4 -DPIC -c -o objs/$*.o $<
-	- at mv objs/$*.o $@
+	- mv objs/$*.o $@
 
 crc_folding.o: crc_folding.c
 	${CC} ${CFLAGS} -mpclmul -msse4 -I. -c -o $@ crc_folding.c
